@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Heldy.DataAccess</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Configs\DBConfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Configs\DBConfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heldy-API.Models\Heldy.Models.csproj" />
+  </ItemGroup>
+
+</Project>
