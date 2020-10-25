@@ -1,5 +1,6 @@
 ﻿using Heldy.DataAccess.Interfaces;
 using Heldy.Models;
+using Heldy.Models.Requests;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Heldy.DataAccess
             _dbConfig = GetConfig();
         }
 
-        public async Task CreateTask(PersonTask task)
+        public async Task CreateTask(CreateTaskRequest task)
         {
             using (var connection = new SqlConnection(_dbConfig.ConnectionString))
             using (var command = new SqlCommand("CreateTask", connection) { CommandType = CommandType.StoredProcedure })
@@ -35,11 +36,11 @@ namespace Heldy.DataAccess
                 command.Parameters.AddWithValue("statement", task.Statement);
                 command.Parameters.AddWithValue("deadline", task.Deadline);
                 command.Parameters.AddWithValue("description", task.Description);
-                command.Parameters.AddWithValue("subjectId", task.Subejct.Id);
-                command.Parameters.AddWithValue("assigneeId", task.Assignee.Id);
-                command.Parameters.AddWithValue("authorId", task.Author.Id);
-                command.Parameters.AddWithValue("typeId", task.Type.Id);
-                command.Parameters.AddWithValue("statusId", task.Status.Id);
+                command.Parameters.AddWithValue("subjectId", task.SubjectId);
+                command.Parameters.AddWithValue("assigneeId", task.AssigneeId);
+                command.Parameters.AddWithValue("authorId", task.AuthorId);
+                command.Parameters.AddWithValue("typeId", task.TypeId);
+                command.Parameters.AddWithValue("statusId", task.StatusId);
 
                 await Task.Run(() => command.ExecuteNonQuery());
             }
@@ -102,6 +103,7 @@ namespace Heldy.DataAccess
 
             task.EctsMark = reader["EctsMark"].ToString();
             task.Comment = reader["Comment"].ToString();
+            task.Description = reader["Description"].ToString();
 
             task.Assignee = CreatePerson(reader, ASSIGNEE);
             task.Author = CreatePerson(reader, AUTHOR);
