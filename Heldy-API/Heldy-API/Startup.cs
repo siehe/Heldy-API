@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Heldy_API
 {
@@ -29,6 +30,15 @@ namespace Heldy_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = "Heldy API",
+                    Version = "v1"
+                });
+            });
+
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ITaskRepository, TaskRepository>();
             services.AddControllers();
@@ -41,6 +51,13 @@ namespace Heldy_API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Heldy API v1");
+            });
 
             app.UseHttpsRedirection();
 
