@@ -54,6 +54,20 @@ namespace Heldy.DataAccess
             return task;
         }
 
+        public static Person CreatePerson(IDataReader reader)
+        {
+            var person = new Person();
+
+            person.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+            person.Name = reader.GetString(reader.GetOrdinal("Name"));
+            person.SecondName = reader.GetString(reader.GetOrdinal("SecondName"));
+            person.Surname = reader.GetString(reader.GetOrdinal("Surname"));
+            person.DOB = reader.GetDateTime(reader.GetOrdinal("DOB"));
+            person.Email = reader.GetString(reader.GetOrdinal("Email"));
+
+            return person;
+        }
+
         public static Person CreatePerson(IDataReader reader, string prefix)
         {
             var person = new Person();
