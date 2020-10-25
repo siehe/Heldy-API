@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Heldy.Services</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heldy-Api.DataAccess\Heldy.DataAccess.csproj" />
+    <ProjectReference Include="..\Heldy-API.Models\Heldy.Models.csproj" />
+  </ItemGroup>
+
+</Project>
