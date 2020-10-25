@@ -4,6 +4,12 @@
         <name>Heldy-API</name>
     </assembly>
     <members>
+        <member name="M:Heldy_API.Controllers.ColumnsController.GetColumns">
+            <summary>
+            Getting all existing types of columns columns
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Heldy_API.Controllers.TasksController.GetAllUserTasksAsync(System.Int32)">
             <summary>
             Get all users tasks by userId. Test values: userId = 2;
