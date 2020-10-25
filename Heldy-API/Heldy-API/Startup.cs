@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Heldy.DataAccess;
 using Heldy.DataAccess.Interfaces;
@@ -37,6 +39,9 @@ namespace Heldy_API
                     Title = "Heldy API",
                     Version = "v1"
                 });
+
+                var xmlFilePath = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.XML");
+                c.IncludeXmlComments(xmlFilePath);
             });
 
             services.AddSingleton<ITaskService, TaskService>();

@@ -22,5 +22,11 @@ namespace Heldy.Services
             var tasks = await _taskRepository.GetPersonTasksAsync(userId);
             return tasks;
         }
+
+        public async Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assigneeId)
+        {
+            var tasks = await _taskRepository.GetTasksBySubject(subjectId, assigneeId);
+            return tasks;
+        }
     }
 }

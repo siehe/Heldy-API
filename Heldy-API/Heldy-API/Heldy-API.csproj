@@ -5,6 +5,10 @@
     <RootNamespace>Heldy_API</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\projects\Heldy-API\Heldy-API\Heldy-API\Heldy-API.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Configs\MainConfig.json" />
   </ItemGroup>

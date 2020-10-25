@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Heldy_API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("tasks")]
     public class TasksController : Controller
     {
         private ITaskService _taskService;
@@ -19,11 +19,30 @@ namespace Heldy_API.Controllers
             _taskService = taskService;
         }
 
+        /// <summary>
+        /// Get all users tasks by userId. Test values: userId = 2;
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("tasks/{userId}")]
+        [Route("{userId}")]
         public async Task<IActionResult> GetAllUserTasksAsync(int userId)
         {
             var tasks = await _taskService.GetPersonsTasksAsync(userId);
+            return Ok(tasks);
+        }
+
+        /// <summary>
+        /// Getting all persons tasks by subjectId and personId. Test values: subjectId є [1;4]; assigneeId = 2
+        /// </summary>
+        /// <param name="subjectId"></param>
+        /// <param name="assigneeId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{subjectId}/persons/{assigneeId}")]
+        public async Task<IActionResult> GetTasksBySubject(int subjectId, int assigneeId)
+        {
+            var tasks = await _taskService.GetTasksBySubject(subjectId, assigneeId);
             return Ok(tasks);
         }
     }

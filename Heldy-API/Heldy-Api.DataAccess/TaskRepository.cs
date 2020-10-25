@@ -15,39 +15,62 @@ namespace Heldy.DataAccess
 {
     public class TaskRepository : ITaskRepository
     {
+        private DBConfig _dbConfig;
+
         private string _resourceName = "Heldy.DataAccess.Configs.DBConfig.json";
         private const string ASSIGNEE = "assignee";
         private const string AUTHOR = "author";
 
+        public TaskRepository()
+        {
+            _dbConfig = GetConfig();
+        }
 
         public async Task<IEnumerable<PersonTask>> GetPersonTasksAsync(int userId)
         {
             var tasks = new List<PersonTask>();
+            var config = GetConfig();
 
-            var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream(_resourceName))
-            using (var sr = new StreamReader(stream))
+            using (var connection = new SqlConnection(_dbConfig.ConnectionString))
+            using (var command = new SqlCommand("GetTasksByAssigneeId", connection) { CommandType = CommandType.StoredProcedure })
             {
-                var config = JsonConvert.DeserializeObject<DBConfig>(sr.ReadToEnd());
+                connection.Open();
+                command.Parameters.AddWithValue("assigneeId", userId);
 
-                using (var connection = new SqlConnection(config.ConnectionString))
-                using (var command = new SqlCommand("GetTasksByAssigneeId", connection) { CommandType = CommandType.StoredProcedure})
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    command.Parameters.AddWithValue("assigneeId", userId);
-
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            tasks.Add(CreateTask(reader));
-                        }
+                        await Task.Run(() => tasks.Add(CreateTask(reader)));
                     }
-
                 }
 
-                return tasks;
             }
+
+            return tasks;
+        }
+
+        public async Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assigneeId)
+        {
+            var tasks = new List<PersonTask>();
+
+            using (var connection = new SqlConnection(_dbConfig.ConnectionString))
+            using (var command = new SqlCommand("GetTasksBySubjectId", connection) { CommandType = CommandType.StoredProcedure })
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("subjectId", subjectId);
+                command.Parameters.AddWithValue("assigneeId", assigneeId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        await Task.Run(() => tasks.Add(CreateTask(reader)));
+                    }
+                }
+            }
+
+            return tasks;
         }
 
         private PersonTask CreateTask(IDataReader reader)
@@ -99,6 +122,18 @@ namespace Heldy.DataAccess
             subject.Title = reader.GetString(reader.GetOrdinal("Title"));
 
             return subject;
+        }
+
+        private DBConfig GetConfig()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (var stream = assembly.GetManifestResourceStream(_resourceName))
+            using (var sr = new StreamReader(stream))
+            {
+                var config = JsonConvert.DeserializeObject<DBConfig>(sr.ReadToEnd());
+                return config;
+            }
         }
     }
 }
