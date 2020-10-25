@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Heldy-API</name>
+    </assembly>
+    <members>
+        <member name="M:Heldy_API.Controllers.TasksController.GetAllUserTasksAsync(System.Int32)">
+            <summary>
+            Get all users tasks by userId. Test values: userId = 2;
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Heldy_API.Controllers.TasksController.GetTasksBySubject(System.Int32,System.Int32)">
+            <summary>
+            Getting all persons tasks by subjectId and personId. Test values: subjectId є [1;4]; assigneeId = 2
+            </summary>
+            <param name="subjectId"></param>
+            <param name="assigneeId"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

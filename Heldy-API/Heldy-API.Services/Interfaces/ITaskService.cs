@@ -9,5 +9,7 @@ namespace Heldy.Services.Interfaces
     public interface ITaskService
     {
         Task<IEnumerable<PersonTask>> GetPersonsTasksAsync(int userId);
+
+        Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assgineeId);
     }
 }
