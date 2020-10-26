@@ -15,11 +15,10 @@ namespace Heldy.DataAccess
     public class ColumnRepository : IColumnsRepository
     {
         private DBConfig _dbConfig;
-        private string _resourceName = "Heldy.DataAccess.Configs.DBConfig.json";
 
         public ColumnRepository()
         {
-            _dbConfig = GetConfig();
+            _dbConfig = DbHelper.GetConfig();
         }
 
         public async Task<IEnumerable<Column>> GetColumns()
@@ -35,35 +34,13 @@ namespace Heldy.DataAccess
                 {
                     while (reader.Read())
                     {
-                        await Task.Run(() => columns.Add(CreateColumn(reader)));
+                        await Task.Run(() => columns.Add(DbHelper.CreateColumn(reader)));
                     }
                 }
 
             }
 
             return columns;
-        }
-
-        private DBConfig GetConfig()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (var stream = assembly.GetManifestResourceStream(_resourceName))
-            using (var sr = new StreamReader(stream))
-            {
-                var config = JsonConvert.DeserializeObject<DBConfig>(sr.ReadToEnd());
-                return config;
-            }
-        }
-
-        private Column CreateColumn(IDataReader reader)
-        {
-            var column = new Column();
-
-            column.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-            column.Name = reader.GetString(reader.GetOrdinal("Name"));
-
-            return column;
         }
     }
 }
