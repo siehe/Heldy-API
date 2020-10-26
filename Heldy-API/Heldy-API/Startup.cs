@@ -72,6 +72,8 @@ namespace Heldy_API
 
             app.UseRouting();
 
+            app.Use("AllowAllOrigins");
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
