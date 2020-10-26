@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Heldy.Models;
+using Heldy.Models.Requests;
 using Heldy.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,8 +44,22 @@ namespace Heldy_API.Controllers
         [Route("{subjectId}/persons/{assigneeId}")]
         public async Task<IActionResult> GetTasksBySubject(int subjectId, int assigneeId)
         {
-            var tasks = await _taskService.GetTasksBySubject(subjectId, assigneeId);
+            var tasks = await _taskService.GetTasksBySubjectAsync(subjectId, assigneeId);
             return Ok(tasks);
+        }
+
+        /// <summary>
+        /// Creating tasks
+        /// </summary>
+        /// <param name="createTask"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("")]
+        public async Task<IActionResult> CreateTask(CreateTaskRequest task)
+        {
+            await _taskService.CreateTaskAsync(task);
+
+            return Ok(HttpStatusCode.Created);
         }
     }
 }

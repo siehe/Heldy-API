@@ -1,4 +1,5 @@
 ﻿using Heldy.Models;
+using Heldy.Models.Requests;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace Heldy.DataAccess.Interfaces
     {
         Task<IEnumerable<PersonTask>> GetPersonTasksAsync(int userId);
 
-        Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assigneeId);
+        Task<IEnumerable<PersonTask>> GetTasksBySubjectAsync(int subjectId, int assigneeId);
+
+        Task CreateTaskAsync(CreateTaskRequest task);
     }
 }

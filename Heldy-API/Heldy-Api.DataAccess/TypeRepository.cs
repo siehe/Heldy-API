@@ -1,46 +1,42 @@
 ﻿using Heldy.DataAccess.Interfaces;
 using Heldy.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Heldy.DataAccess
 {
-    public class ColumnRepository : IColumnsRepository
+    public class TypeRepository : ITypeRepository
     {
         private DBConfig _dbConfig;
 
-        public ColumnRepository()
+        public TypeRepository()
         {
             _dbConfig = DbHelper.GetConfig();
         }
 
-        public async Task<IEnumerable<Column>> GetColumns()
+        public async Task<IEnumerable<TaskType>> GetTypesAsync()
         {
-            var columns = new List<Column>();
+            var types = new List<TaskType>();
 
             using (var connection = new SqlConnection(_dbConfig.ConnectionString))
-            using (var command = new SqlCommand("GetColumns", connection) { CommandType = CommandType.StoredProcedure })
+            using (var command = new SqlCommand("GetTypes", connection) { CommandType = CommandType.StoredProcedure })
             {
                 connection.Open();
-
-                using (var reader = command.ExecuteReader())
+                
+                using(var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        await Task.Run(() => columns.Add(DbHelper.CreateColumn(reader)));
+                        await Task.Run(() => types.Add(DbHelper.CreateType(reader)));
                     }
                 }
-
             }
 
-            return columns;
+            return types;
         }
     }
 }
