@@ -9,8 +9,8 @@ namespace Heldy.DataAccess.Interfaces
     {
         Task<IEnumerable<PersonTask>> GetPersonTasksAsync(int userId);
 
-        Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assigneeId);
+        Task<IEnumerable<PersonTask>> GetTasksBySubjectAsync(int subjectId, int assigneeId);
 
-        Task CreateTask(CreateTaskRequest task);
+        Task CreateTaskAsync(CreateTaskRequest task);
     }
 }

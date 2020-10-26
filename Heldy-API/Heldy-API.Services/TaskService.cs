@@ -18,9 +18,9 @@ namespace Heldy.Services
             _taskRepository = taskRepository;
         }
 
-        public async Task CreateTask(CreateTaskRequest task)
+        public async Task CreateTaskAsync(CreateTaskRequest task)
         {
-            await _taskRepository.CreateTask(task);
+            await _taskRepository.CreateTaskAsync(task);
         }
 
         public async Task<IEnumerable<PersonTask>> GetPersonsTasksAsync(int userId)
@@ -29,9 +29,9 @@ namespace Heldy.Services
             return tasks;
         }
 
-        public async Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assigneeId)
+        public async Task<IEnumerable<PersonTask>> GetTasksBySubjectAsync(int subjectId, int assigneeId)
         {
-            var tasks = await _taskRepository.GetTasksBySubject(subjectId, assigneeId);
+            var tasks = await _taskRepository.GetTasksBySubjectAsync(subjectId, assigneeId);
             return tasks;
         }
     }

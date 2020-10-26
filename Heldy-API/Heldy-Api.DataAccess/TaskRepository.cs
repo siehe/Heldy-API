@@ -23,7 +23,7 @@ namespace Heldy.DataAccess
             _dbConfig = DbHelper.GetConfig();
         }
 
-        public async Task CreateTask(CreateTaskRequest task)
+        public async Task CreateTaskAsync(CreateTaskRequest task)
         {
             using (var connection = new SqlConnection(_dbConfig.ConnectionString))
             using (var command = new SqlCommand("CreateTask", connection) { CommandType = CommandType.StoredProcedure })
@@ -65,7 +65,7 @@ namespace Heldy.DataAccess
             return tasks;
         }
 
-        public async Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assigneeId)
+        public async Task<IEnumerable<PersonTask>> GetTasksBySubjectAsync(int subjectId, int assigneeId)
         {
             var tasks = new List<PersonTask>();
 
