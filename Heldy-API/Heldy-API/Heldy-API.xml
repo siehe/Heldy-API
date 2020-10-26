@@ -10,6 +10,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Heldy_API.Controllers.PersonsController.GetPersonsByRoleId(System.Int32)">
+            <summary>
+            Get all persons of specified role
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Heldy_API.Controllers.TasksController.GetAllUserTasksAsync(System.Int32)">
             <summary>
             Get all users tasks by userId. Test values: userId = 2;
