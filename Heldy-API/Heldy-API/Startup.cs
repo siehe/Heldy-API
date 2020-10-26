@@ -46,6 +46,8 @@ namespace Heldy_API
 
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ITaskRepository, TaskRepository>();
+            services.AddSingleton<IColumnService, ColumnService>();
+            services.AddSingleton<IColumnsRepository, ColumnRepository>();
             services.AddControllers();
             services.AddCors(options =>
             {
