@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Heldy_API.Models
+namespace Heldy.Models.Requests
 {
     public class CreateTaskRequest
     {
@@ -15,7 +15,7 @@ namespace Heldy_API.Models
 
         public int SubjectId { get; set; }
 
-        public int AssigneId { get; set; }
+        public int AssigneeId { get; set; }
 
         public int AuthorId { get; set; }
 

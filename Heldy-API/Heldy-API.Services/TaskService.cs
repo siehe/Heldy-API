@@ -1,5 +1,6 @@
 ﻿using Heldy.DataAccess.Interfaces;
 using Heldy.Models;
+using Heldy.Models.Requests;
 using Heldy.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Heldy.Services
             _taskRepository = taskRepository;
         }
 
-        public async Task CreateTask(PersonTask task)
+        public async Task CreateTask(CreateTaskRequest task)
         {
             await _taskRepository.CreateTask(task);
         }

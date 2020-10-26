@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Heldy.Models;
+using Heldy.Models.Requests;
 using Heldy.Services.Interfaces;
-using Heldy_API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Heldy_API.Controllers
@@ -55,35 +55,8 @@ namespace Heldy_API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> CreateTask(CreateTaskRequest createTask)
+        public async Task<IActionResult> CreateTask(CreateTaskRequest task)
         {
-            var task = new PersonTask()
-            {
-                Statement = createTask.Statement,
-                Deadline = createTask.Deadline,
-                Description = createTask.Description,
-                Subejct = new Subject()
-                {
-                    Id = createTask.SubjectId
-                },
-                Status = new Column()
-                {
-                    Id = createTask.StatusId
-                },
-                Assignee = new Person()
-                {
-                    Id = createTask.AssigneId
-                },
-                Author = new Person()
-                {
-                    Id = createTask.AuthorId
-                },
-                Type = new TaskType()
-                {
-                    Id = createTask.TypeId
-                }
-            };
-
             await _taskService.CreateTask(task);
 
             return Ok(HttpStatusCode.Created);
