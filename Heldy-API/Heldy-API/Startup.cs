@@ -54,7 +54,8 @@ namespace Heldy_API
             services.AddSingleton<ISubjectRepository, SubjectRepository>();
             services.AddSingleton<ITypeService, TypeService>();
             services.AddSingleton<ITypeRepository, TypeRepository>();
-          
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IUserService, UserService>();
             services.AddControllers();
             services.AddCors(options =>
             {
