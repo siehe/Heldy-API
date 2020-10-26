@@ -11,5 +11,7 @@ namespace Heldy.Services.Interfaces
         Task<IEnumerable<PersonTask>> GetPersonsTasksAsync(int userId);
 
         Task<IEnumerable<PersonTask>> GetTasksBySubject(int subjectId, int assgineeId);
+
+        Task CreateTask(PersonTask task);
     }
 }

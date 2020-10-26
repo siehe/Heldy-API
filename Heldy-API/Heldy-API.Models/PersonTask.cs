@@ -13,7 +13,7 @@ namespace Heldy.Models
 
         public string Description { get; set; }
 
-        public string Type { get; set; }
+        public TaskType Type { get; set; }
 
         public DateTime Deadline { get; set; }
 
@@ -23,7 +23,7 @@ namespace Heldy.Models
 
         public Person Assignee { get; set; }
 
-        public string Status { get; set; }
+        public Column Status { get; set; }
 
         public string EctsMark { get; set; }
 

@@ -26,6 +26,25 @@ namespace Heldy.DataAccess
             _dbConfig = GetConfig();
         }
 
+        public async Task CreateTask(PersonTask task)
+        {
+            using (var connection = new SqlConnection(_dbConfig.ConnectionString))
+            using (var command = new SqlCommand("CreateTask", connection) { CommandType = CommandType.StoredProcedure })
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("statement", task.Statement);
+                command.Parameters.AddWithValue("deadline", task.Deadline);
+                command.Parameters.AddWithValue("description", task.Description);
+                command.Parameters.AddWithValue("subjectId", task.Subejct.Id);
+                command.Parameters.AddWithValue("assigneeId", task.Assignee.Id);
+                command.Parameters.AddWithValue("authorId", task.Author.Id);
+                command.Parameters.AddWithValue("typeId", task.Type.Id);
+                command.Parameters.AddWithValue("statusId", task.Status.Id);
+
+                await Task.Run(() => command.ExecuteNonQuery());
+            }
+        }
+
         public async Task<IEnumerable<PersonTask>> GetPersonTasksAsync(int userId)
         {
             var tasks = new List<PersonTask>();
@@ -79,8 +98,6 @@ namespace Heldy.DataAccess
 
             task.Id = reader.GetInt32(reader.GetOrdinal("taskId"));
             task.Statement = reader.GetString(reader.GetOrdinal("Statement"));
-            task.Status = reader.GetString(reader.GetOrdinal("Status"));
-            task.Type = reader.GetString(reader.GetOrdinal("Type"));
             task.Deadline = reader.GetDateTime(reader.GetOrdinal("Deadline"));
 
             task.EctsMark = reader["EctsMark"].ToString();
@@ -89,6 +106,8 @@ namespace Heldy.DataAccess
             task.Assignee = CreatePerson(reader, ASSIGNEE);
             task.Author = CreatePerson(reader, AUTHOR);
             task.Subejct = CreateSubject(reader);
+            task.Status = CreateStatus(reader);
+            task.Type = CreateType(reader);
 
             int grade;
             if (int.TryParse(reader["Grade"].ToString(), out grade))
@@ -134,6 +153,26 @@ namespace Heldy.DataAccess
                 var config = JsonConvert.DeserializeObject<DBConfig>(sr.ReadToEnd());
                 return config;
             }
+        }
+
+        private Column CreateStatus(IDataReader reader)
+        {
+            var column = new Column();
+
+            column.Id = reader.GetInt32(reader.GetOrdinal("statusId"));
+            column.Name = reader.GetString(reader.GetOrdinal("Status"));
+
+            return column;
+        }
+
+        private TaskType CreateType(IDataReader reader)
+        {
+            var type = new TaskType();
+
+            type.Id = reader.GetInt32(reader.GetOrdinal("typeId"));
+            type.Name = reader.GetString(reader.GetOrdinal("Type"));
+
+            return type;
         }
     }
 }

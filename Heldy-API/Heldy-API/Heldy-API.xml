@@ -25,5 +25,12 @@
             <param name="assigneeId"></param>
             <returns></returns>
         </member>
+        <member name="M:Heldy_API.Controllers.TasksController.CreateTask(Heldy_API.Models.CreateTaskRequest)">
+            <summary>
+            Creating tasks
+            </summary>
+            <param name="createTask"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
