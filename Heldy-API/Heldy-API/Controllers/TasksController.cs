@@ -44,7 +44,7 @@ namespace Heldy_API.Controllers
         [Route("{subjectId}/persons/{assigneeId}")]
         public async Task<IActionResult> GetTasksBySubject(int subjectId, int assigneeId)
         {
-            var tasks = await _taskService.GetTasksBySubject(subjectId, assigneeId);
+            var tasks = await _taskService.GetTasksBySubjectAsync(subjectId, assigneeId);
             return Ok(tasks);
         }
 
@@ -57,7 +57,7 @@ namespace Heldy_API.Controllers
         [Route("")]
         public async Task<IActionResult> CreateTask(CreateTaskRequest task)
         {
-            await _taskService.CreateTask(task);
+            await _taskService.CreateTaskAsync(task);
 
             return Ok(HttpStatusCode.Created);
         }
