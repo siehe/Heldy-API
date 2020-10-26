@@ -72,7 +72,7 @@ namespace Heldy_API
 
             app.UseRouting();
 
-            app.Use("AllowAllOrigins");
+            app.UseCors("AllowAllOrigins");
             
             app.UseAuthorization();
 
