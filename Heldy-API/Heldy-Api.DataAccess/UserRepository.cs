@@ -20,7 +20,7 @@ namespace Heldy.DataAccess
 
         public UserRepository()
         {
-            _dbConfig = GetConfig();
+            _dbConfig = DbHelper.GetConfig();
         }
 
         public async Task CreateNewPerson(Person person)
@@ -85,18 +85,6 @@ namespace Heldy.DataAccess
             };
 
             return person;
-        }
-
-        private DBConfig GetConfig()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (var stream = assembly.GetManifestResourceStream(_resourceName))
-            using (var sr = new StreamReader(stream))
-            {
-                var config = JsonConvert.DeserializeObject<DBConfig>(sr.ReadToEnd());
-                return config;
-            }
         }
     }
 }
