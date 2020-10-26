@@ -15,7 +15,6 @@ namespace Heldy.DataAccess
 
         private DBConfig _dbConfig;
 
-        private string _resourceName = "Heldy.DataAccess.Configs.DBConfig.json";
         private const int teacherRoleId = 1;
 
         public UserRepository()
