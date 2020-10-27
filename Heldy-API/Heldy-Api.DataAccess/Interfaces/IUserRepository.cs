@@ -8,7 +8,9 @@ namespace Heldy.DataAccess.Interfaces
 {
     public interface IUserRepository
     {
-        Task CreateNewPerson(Person person);
+        Task CreateNewTeacher(Person person);
+
+        Task CreateNewStudent(Person person);
 
         Task<Person> GetPersonByEmail(string email);
     }

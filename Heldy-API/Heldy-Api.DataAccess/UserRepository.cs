@@ -12,51 +12,43 @@ namespace Heldy.DataAccess
 {
     public class UserRepository : IUserRepository
     {
-
         private DBConfig _dbConfig;
 
         private const int teacherRoleId = 1;
+        private const int studentRoleId = 2;
 
         public UserRepository()
         {
             _dbConfig = DbHelper.GetConfig();
         }
 
-        public async Task CreateNewPerson(Person person)
+        public async Task CreateNewTeacher(Person person)
         {
-            var sqlExpression = "INSERT INTO Persons(Role, Name, Surname, SecondName, DOB, Email, Password) VALUES(@role, @name, @surname, @secondName, @dob, @email, @password)";
             await using var connection = new SqlConnection(_dbConfig.ConnectionString);
-            await using var command = new SqlCommand(sqlExpression, connection);
+            await using var command = await CreateInsertTeacherCommand(person, connection);
 
             connection.Open();
 
-            var roleParam = new SqlParameter("@role",teacherRoleId);
-            var nameParam = new SqlParameter("@name",person.Name);
-            var surnameParam = new SqlParameter("@surname",person.Surname);
-            var secondNameParam = new SqlParameter("@secondName",person.SecondName);
-            var dobParam = new SqlParameter("@dob",person.DOB);
-            var emailParam = new SqlParameter("@email",person.Email);
-            var passwordParam = new SqlParameter("@password",person.Password);
+            await command.ExecuteNonQueryAsync();
+        }
 
-            command.Parameters.Add(roleParam);
-            command.Parameters.Add(nameParam);
-            command.Parameters.Add(surnameParam);
-            command.Parameters.Add(secondNameParam);
-            command.Parameters.Add(dobParam);
-            command.Parameters.Add(emailParam);
-            command.Parameters.Add(passwordParam);
+        public async Task CreateNewStudent(Person person)
+        {
+            await using var connection = new SqlConnection(_dbConfig.ConnectionString);
+            await using var command = await CreateInsertStudentCommand(person, connection);
 
+            connection.Open();
             await command.ExecuteNonQueryAsync();
         }
 
         public async Task<Person> GetPersonByEmail(string email)
         {
-            var sqlExpression = "SELECT [Id] ,[Role] ,[Name] ,[Surname] ,[SecondName] ,[DOB] ,[Email] ,[Password] FROM Persons WHERE [Email] = @email";
+            var sqlExpression = "GetPersonByEmail";
             await using var connection = new SqlConnection(_dbConfig.ConnectionString);
-            await using var command = new SqlCommand(sqlExpression, connection);
+            await using var command = new SqlCommand(sqlExpression, connection) { CommandType = CommandType.StoredProcedure };
 
             connection.Open();
-            command.Parameters.AddWithValue("@email", email);
+            command.Parameters.AddWithValue("email", email);
 
             await using var reader = await command.ExecuteReaderAsync();
 
@@ -68,6 +60,51 @@ namespace Heldy.DataAccess
             }
 
             return res;
+        }
+
+        private async Task<SqlCommand> CreateInsertTeacherCommand(Person person, SqlConnection connection)
+        {
+            var command = await CreateInsertPersonCommand(person, connection);
+            command.Parameters.AddWithValue("role", teacherRoleId);
+
+            return command;
+        }
+
+        private async Task<SqlCommand> CreateInsertStudentCommand(Person person, SqlConnection connection)
+        {
+            var command = await CreateInsertPersonCommand(person, connection);
+            command.Parameters.AddWithValue("role", studentRoleId);
+
+            return command;
+        }
+
+
+        private async Task<SqlCommand> CreateInsertPersonCommand(Person person, SqlConnection connection)
+        {
+            var sqlExpression = "CreatePerson";
+            await using var command = new SqlCommand(sqlExpression, connection) {CommandType = CommandType.StoredProcedure};
+
+            command.Parameters.AddWithValue("name", (object)person.Name ?? DBNull.Value);
+            command.Parameters.AddWithValue("surname", (object)person.Surname ?? DBNull.Value);
+            command.Parameters.AddWithValue("secondName", (object)person.SecondName ?? DBNull.Value);
+            command.Parameters.AddWithValue("email", person.Email);
+            command.Parameters.AddWithValue("password", person.Password);
+            SetDOBParameter(command, person.DOB);
+
+            return command;
+        }
+
+        private void SetDOBParameter(SqlCommand command, DateTime DOB)
+        {
+            if (DOB.Year < 1970)
+            {
+                command.Parameters.AddWithValue("dob", DBNull.Value);
+            }
+            else
+            {
+                command.Parameters.AddWithValue("dob", DOB);
+            }
+
         }
 
         private Person CreatePerson(IDataReader reader)

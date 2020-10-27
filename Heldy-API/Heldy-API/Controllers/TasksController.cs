@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Heldy.Models;
 using Heldy.Models.Requests;
 using Heldy.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Heldy_API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("tasks")]
     public class TasksController : Controller
     {
