@@ -38,18 +38,17 @@ namespace Heldy.DataAccess
             await using var command = await CreateInsertStudentCommand(person, connection);
 
             connection.Open();
-
             await command.ExecuteNonQueryAsync();
         }
 
         public async Task<Person> GetPersonByEmail(string email)
         {
-            var sqlExpression = "SELECT [Id] ,[Role] ,[Name] ,[Surname] ,[SecondName] ,[DOB] ,[Email] ,[Password] FROM Persons WHERE [Email] = @email";
+            var sqlExpression = "GetPersonByEmail";
             await using var connection = new SqlConnection(_dbConfig.ConnectionString);
-            await using var command = new SqlCommand(sqlExpression, connection);
+            await using var command = new SqlCommand(sqlExpression, connection) { CommandType = CommandType.StoredProcedure };
 
             connection.Open();
-            command.Parameters.AddWithValue("@email", email);
+            command.Parameters.AddWithValue("email", email);
 
             await using var reader = await command.ExecuteReaderAsync();
 
@@ -66,7 +65,7 @@ namespace Heldy.DataAccess
         private async Task<SqlCommand> CreateInsertTeacherCommand(Person person, SqlConnection connection)
         {
             var command = await CreateInsertPersonCommand(person, connection);
-            command.Parameters.AddWithValue("@role", teacherRoleId);
+            command.Parameters.AddWithValue("role", teacherRoleId);
 
             return command;
         }
@@ -74,7 +73,7 @@ namespace Heldy.DataAccess
         private async Task<SqlCommand> CreateInsertStudentCommand(Person person, SqlConnection connection)
         {
             var command = await CreateInsertPersonCommand(person, connection);
-            command.Parameters.AddWithValue("@role", studentRoleId);
+            command.Parameters.AddWithValue("role", studentRoleId);
 
             return command;
         }
@@ -82,14 +81,14 @@ namespace Heldy.DataAccess
 
         private async Task<SqlCommand> CreateInsertPersonCommand(Person person, SqlConnection connection)
         {
-            var sqlExpression = "INSERT INTO Persons(Role, Name, Surname, SecondName, DOB, Email, Password) VALUES(@role, @name, @surname, @secondName, @dob, @email, @password)";
-            await using var command = new SqlCommand(sqlExpression, connection);
+            var sqlExpression = "CreatePerson";
+            await using var command = new SqlCommand(sqlExpression, connection) {CommandType = CommandType.StoredProcedure};
 
-            command.Parameters.AddWithValue("@name", (object)person.Name ?? DBNull.Value);
-            command.Parameters.AddWithValue("@surname", (object)person.Surname ?? DBNull.Value);
-            command.Parameters.AddWithValue("@secondName", (object)person.SecondName ?? DBNull.Value);
-            command.Parameters.AddWithValue("@email", person.Email);
-            command.Parameters.AddWithValue("@password", person.Password);
+            command.Parameters.AddWithValue("name", (object)person.Name ?? DBNull.Value);
+            command.Parameters.AddWithValue("surname", (object)person.Surname ?? DBNull.Value);
+            command.Parameters.AddWithValue("secondName", (object)person.SecondName ?? DBNull.Value);
+            command.Parameters.AddWithValue("email", person.Email);
+            command.Parameters.AddWithValue("password", person.Password);
             SetDOBParameter(command, person.DOB);
 
             return command;
@@ -99,11 +98,11 @@ namespace Heldy.DataAccess
         {
             if (DOB.Year < 1970)
             {
-                command.Parameters.AddWithValue("@dob", DBNull.Value);
+                command.Parameters.AddWithValue("dob", DBNull.Value);
             }
             else
             {
-                command.Parameters.AddWithValue("@dob", DOB);
+                command.Parameters.AddWithValue("dob", DOB);
             }
 
         }
