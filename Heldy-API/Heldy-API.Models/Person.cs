@@ -19,5 +19,13 @@ namespace Heldy.Models
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public void ReplaceNullFieldsWithDefaultValues()
+        {
+            Name = string.IsNullOrEmpty(Name) ? "" : Name;
+            Surname = string.IsNullOrEmpty(Surname) ? "" : Surname;
+            SecondName = string.IsNullOrEmpty(SecondName) ? "" : SecondName;
+            DOB = DOB.Year < 1970 ? new DateTime(1970,1,1) : DOB;
+        }
     }
 }

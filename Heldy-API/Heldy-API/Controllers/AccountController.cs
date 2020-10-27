@@ -8,6 +8,7 @@ using Heldy.Models;
 using Microsoft.AspNetCore.Mvc;
 using Heldy.Services.Interfaces;
 using Heldy_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -76,6 +77,20 @@ namespace Heldy_API.Controllers
                     return this.GetLoginResponse(user);
                 default: return this.BadRequest();
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("registerStudent")]
+        public async Task<IActionResult> RegisterStudent(StudentRegistrationModel model)
+        {
+            var password = await userService.RegisterStudent(model.Email);
+            if (password == null)
+            {
+                return BadRequest("User already exists.");
+            }
+
+            return Ok(password);
         }
 
         private IActionResult GetLoginResponse(Person user)
