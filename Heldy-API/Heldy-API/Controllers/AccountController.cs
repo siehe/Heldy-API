@@ -84,6 +84,11 @@ namespace Heldy_API.Controllers
         [Route("registerStudent")]
         public async Task<IActionResult> RegisterStudent(StudentRegistrationModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest("Invalid data.");
+            }
+
             var password = await userService.RegisterStudent(model.Email);
             if (password == null)
             {
