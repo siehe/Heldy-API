@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Heldy.Models;
 using Microsoft.AspNetCore.Mvc;
 using Heldy.Services.Interfaces;
-using Heldy_API.Configs;
 using Heldy_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
