@@ -67,14 +67,14 @@ namespace Heldy_API.Controllers
             var user = new Person { Email = model.Email, Password = model.Password };
             var loginResult = await this.userService.Login(user);
 
-            switch (loginResult)
+            switch (loginResult.LoginResult)
             {
                 case LoginResult.WrongLoginOrPassword:
                     return this.BadRequest("Wrong login or password.");
                 case LoginResult.UserDoesNotExists:
                     return this.BadRequest("User does not exists.");
                 case LoginResult.Ok:
-                    return this.GetLoginResponse(user);
+                    return this.GetLoginResponse(loginResult.Person);
                 default: return this.BadRequest();
             }
         }
@@ -106,7 +106,8 @@ namespace Heldy_API.Controllers
             var response = new
             {
                 accessToken,
-                ExpiresTime = DateTime.Now.AddMinutes(expiresTime)
+                ExpiresTime = DateTime.Now.AddMinutes(expiresTime),
+                userId = user.Id
             };
             return this.Ok(response);
         }
