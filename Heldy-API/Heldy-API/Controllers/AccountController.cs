@@ -90,7 +90,13 @@ namespace Heldy_API.Controllers
                 return BadRequest("User already exists.");
             }
 
-            return Ok(password);
+            var response = new
+            {
+                email = model.Email,
+                password = password
+            };
+
+            return Ok(response);
         }
 
         private IActionResult GetLoginResponse(Person user)
