@@ -1,22 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Heldy.DataAccess;
+﻿using Heldy.DataAccess;
 using Heldy.DataAccess.Interfaces;
 using Heldy.Services;
 using Heldy.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace Heldy_API
 {
@@ -43,6 +40,22 @@ namespace Heldy_API
                 var xmlFilePath = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.XML");
                 c.IncludeXmlComments(xmlFilePath);
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["AccessToken:Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["AccessToken:Audience"],
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["AccessToken:SecretKey"])),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
 
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ITaskRepository, TaskRepository>();
@@ -83,7 +96,8 @@ namespace Heldy_API
             app.UseRouting();
 
             app.UseCors("AllowAllOrigins");
-            
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

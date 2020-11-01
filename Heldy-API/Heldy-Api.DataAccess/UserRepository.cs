@@ -109,16 +109,16 @@ namespace Heldy.DataAccess
 
         private Person CreatePerson(IDataReader reader)
         {
-            var person = new Person
-            {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                Name = reader.GetString(reader.GetOrdinal("Name")),
-                Surname = reader.GetString(reader.GetOrdinal("Surname")),
-                SecondName = reader.GetString(reader.GetOrdinal("SecondName")),
-                DOB = reader.GetDateTime(reader.GetOrdinal("DOB")),
-                Email = reader.GetString(reader.GetOrdinal("Email")),
-                Password = reader.GetString(reader.GetOrdinal("Password"))
-            };
+            var person = new Person();
+
+            person.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+            person.Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? null : reader.GetString(reader.GetOrdinal("Name"));
+            person.Surname = reader.IsDBNull(reader.GetOrdinal("Surname")) ? null : reader.GetString(reader.GetOrdinal("Surname"));
+            person.SecondName = reader.IsDBNull(reader.GetOrdinal("SecondName")) ? null : reader.GetString(reader.GetOrdinal("SecondName"));
+            person.DOB = reader.IsDBNull(reader.GetOrdinal("DOB")) ? new DateTime() : reader.GetDateTime(reader.GetOrdinal("DOB"));
+            person.Email = reader.GetString(reader.GetOrdinal("Email"));
+            person.Password = reader.GetString(reader.GetOrdinal("Password"));
+            
 
             return person;
         }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Heldy.Models;
 using Microsoft.AspNetCore.Mvc;
 using Heldy.Services.Interfaces;
+using Heldy_API.Configs;
 using Heldy_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -118,17 +119,20 @@ namespace Heldy_API.Controllers
                 new Claim("Email", user.Email),
                 new Claim("Id", user.Id.ToString())
             };
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["AccessToken:SecretKey"]));
-            var signCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var expiresTime = int.Parse(this.configuration["AccessToken:ExpiresTimeInMinutes"]);
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AccessToken:SecretKey"]));
+            var expiresTimeInMinutes = int.Parse(configuration["AccessToken:ExpiresTimeInMinutes"]);
 
-            var tokenOptions = new JwtSecurityToken(
+            var now = DateTime.UtcNow;
+            var jwt = new JwtSecurityToken(
+                issuer: configuration["AccessToken:Issuer"],
+                audience: configuration["AccessToken:Audience"],
+                notBefore: now,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(expiresTime),
-                signingCredentials: signCredentials);
+                expires: now.AddMinutes(expiresTimeInMinutes),
+                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["AccessToken:SecretKey"])), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            return tokenString;
+            return encodedJwt;
         }
     }
 }
