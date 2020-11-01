@@ -59,6 +59,11 @@ namespace Heldy_API.Controllers
         [Route("")]
         public async Task<IActionResult> CreateTask(CreateTaskRequest task)
         {
+            if (task.Deadline < DateTime.Now)
+            {
+                return BadRequest("Invalid deadline date.");
+            }
+
             await _taskService.CreateTaskAsync(task);
 
             return Ok(HttpStatusCode.Created);
