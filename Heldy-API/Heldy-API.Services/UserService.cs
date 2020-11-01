@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Heldy.DataAccess.Interfaces;
 using Heldy.Models;
+using Heldy.Services.DTO;
 using Heldy.Services.Interfaces;
 
 namespace Heldy.Services
@@ -32,20 +33,24 @@ namespace Heldy.Services
             return true;
         }
 
-        public async Task<LoginResult> Login(Person user)
+        public async Task<LoginResultDto> Login(Person user)
         {
             var userFromDb = await this.userRepository.GetPersonByEmail(user.Email);
             if (userFromDb == null)
             {
-                return LoginResult.UserDoesNotExists;
+                return new LoginResultDto { LoginResult = LoginResult.UserDoesNotExists};
             }
 
             if (userFromDb.Password == HashPassword(user.Password))
             {
-                return LoginResult.Ok;
+                return new LoginResultDto
+                {
+                    LoginResult = LoginResult.Ok,
+                    Person = userFromDb
+                };
             }
 
-            return LoginResult.WrongLoginOrPassword;
+            return new LoginResultDto { LoginResult = LoginResult.WrongLoginOrPassword };
 
         }
 
