@@ -1,4 +1,6 @@
-﻿namespace Heldy_API.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Heldy_API.Models
 {
     public class StudentRegistrationModel
     {
