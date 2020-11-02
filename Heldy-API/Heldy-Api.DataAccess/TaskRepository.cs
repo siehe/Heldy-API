@@ -76,11 +76,11 @@ namespace Heldy.DataAccess
                 command.Parameters.AddWithValue("subjectId", subjectId);
                 command.Parameters.AddWithValue("assigneeId", assigneeId);
 
-                using (var reader = command.ExecuteReader())
+                using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        await Task.Run(() => tasks.Add(DbHelper.CreateTask(reader)));
+                        tasks.Add(DbHelper.CreateTask(reader));
                     }
                 }
             }
@@ -88,6 +88,22 @@ namespace Heldy.DataAccess
             return tasks;
         }
 
-        
+        public async Task UpdateTaskAsync(CreateUpdateTaskRequest task)
+        {
+            using(var connection = new SqlConnection(_dbConfig.ConnectionString))
+            using (var command = new SqlCommand("UpdateTask", connection))
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("taskId", task.Id);
+                command.Parameters.AddWithValue("deadline", task.Deadline);
+                command.Parameters.AddWithValue("description", task.Description);
+                command.Parameters.AddWithValue("statement", task.Statement);
+                command.Parameters.AddWithValue("statusId", task.StatusId);
+                command.Parameters.AddWithValue("subjectId", task.SubjectId);
+                command.Parameters.AddWithValue("typeId", task.TypeId);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
     }
 }

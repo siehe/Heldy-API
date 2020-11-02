@@ -69,6 +69,11 @@ namespace Heldy_API.Controllers
             return Ok(HttpStatusCode.Created);
         }
 
+        /// <summary>
+        /// Updating the task
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("{taskId}")]
         public async Task<IActionResult> UpdateTask(CreateUpdateTaskRequest task)

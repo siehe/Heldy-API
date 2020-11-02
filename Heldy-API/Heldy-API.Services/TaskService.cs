@@ -37,7 +37,7 @@ namespace Heldy.Services
 
         public async Task UpdateTaskAsync(CreateUpdateTaskRequest task)
         {
-            await _taskRepository.UpdateTask(task);
+            await _taskRepository.UpdateTaskAsync(task);
         }
     }
 }
