@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Heldy.Models.Requests
 {
-    public class CreateTaskRequest
+    public class CreateUpdateTaskRequest
     {
         public string Statement { get; set; }
 

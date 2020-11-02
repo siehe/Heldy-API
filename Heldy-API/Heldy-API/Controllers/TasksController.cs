@@ -57,11 +57,20 @@ namespace Heldy_API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> CreateTask(CreateTaskRequest task)
+        public async Task<IActionResult> CreateTask(CreateUpdateTaskRequest task)
         {
             await _taskService.CreateTaskAsync(task);
 
             return Ok(HttpStatusCode.Created);
+        }
+
+        [HttpPut]
+        [Route("{taskId}")]
+        public async Task<IActionResult> UpdateTask(CreateUpdateTaskRequest task)
+        {
+            await _taskService.UpdateTaskAsync(task);
+
+            return Ok(HttpStatusCode.NoContent);
         }
     }
 }

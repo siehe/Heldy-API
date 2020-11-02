@@ -23,7 +23,7 @@ namespace Heldy.DataAccess
             _dbConfig = DbHelper.GetConfig();
         }
 
-        public async Task CreateTaskAsync(CreateTaskRequest task)
+        public async Task CreateTaskAsync(CreateUpdateTaskRequest task)
         {
             using (var connection = new SqlConnection(_dbConfig.ConnectionString))
             using (var command = new SqlCommand("CreateTask", connection) { CommandType = CommandType.StoredProcedure })
