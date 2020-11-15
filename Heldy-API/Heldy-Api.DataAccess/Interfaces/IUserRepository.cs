@@ -13,5 +13,7 @@ namespace Heldy.DataAccess.Interfaces
         Task CreateNewStudent(Person person);
 
         Task<Person> GetPersonByEmail(string email);
+
+        Task<Person> GetPerson(int id);
     }
 }

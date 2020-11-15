@@ -41,6 +41,24 @@ namespace Heldy.DataAccess
             await command.ExecuteNonQueryAsync();
         }
 
+        public async Task<Person> GetPerson(int id)
+        {
+            await using var connection = new SqlConnection(_dbConfig.ConnectionString);
+            await using var command = new SqlCommand("GetPersonById", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            connection.Open();
+
+            command.Parameters.AddWithValue("id", id);
+
+            await using var reader = await command.ExecuteReaderAsync();
+
+            var person = DbHelper.CreatePerson(reader);
+            return person;
+        }
+
         public async Task<Person> GetPersonByEmail(string email)
         {
             var sqlExpression = "GetPersonByEmail";

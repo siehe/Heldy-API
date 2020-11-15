@@ -32,5 +32,13 @@ namespace Heldy_API.Controllers
             var persons = await _personService.GetPersonsAsync(roleId);
             return Ok(persons);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetPerson(int id)
+        {
+            var person = await _personService.GetPersonAsync(id);
+            return Ok(person);
+        }
     }
 }

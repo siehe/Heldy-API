@@ -98,5 +98,11 @@ namespace Heldy.Services
             }
             return res.ToString();
         }
+
+        public async Task<Person> GetPerson(int id)
+        {
+            var person = await userRepository.GetPerson(id);
+            return person;
+        }
     }
 }
