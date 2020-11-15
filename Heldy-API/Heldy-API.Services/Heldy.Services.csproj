@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="1.10.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.1.0" />
+    <PackageReference Include="MimeKit" Version="1.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Heldy-Api.DataAccess\Heldy.DataAccess.csproj" />
     <ProjectReference Include="..\Heldy-API.Models\Heldy.Models.csproj" />
   </ItemGroup>

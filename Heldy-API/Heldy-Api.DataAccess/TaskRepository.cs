@@ -65,6 +65,28 @@ namespace Heldy.DataAccess
             return tasks;
         }
 
+        public async Task<int> GetPersonTasksCountAsync(int userId)
+        {
+            var count = 0;
+
+            using (var connection = new SqlConnection(_dbConfig.ConnectionString))
+            using (var command = new SqlCommand("GetPersonTasksCount", connection) { CommandType = CommandType.StoredProcedure })
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("Id", userId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        await Task.Run(() => count = reader.GetInt32(reader.GetOrdinal("count")));
+                    }
+                }
+            }
+
+            return count;
+        }
+
         public async Task<IEnumerable<PersonTask>> GetTasksBySubjectAsync(int subjectId, int assigneeId)
         {
             var tasks = new List<PersonTask>();
