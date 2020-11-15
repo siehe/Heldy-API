@@ -12,11 +12,13 @@ namespace Heldy.Services
     public class UserService: IUserService
     {
         private readonly IUserRepository userRepository;
+        private readonly IEmailService emailService;
         private const int PasswordLength = 16;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IEmailService emailService)
         {
             this.userRepository = userRepository;
+            this.emailService = emailService;
         }
 
         public async Task<bool> Registration(Person user)
@@ -72,6 +74,7 @@ namespace Heldy.Services
             };
 
             await userRepository.CreateNewStudent(newUser);
+            await emailService.SendStudentRegistrationEmailAsync(email, password);
             return password;
         }
 

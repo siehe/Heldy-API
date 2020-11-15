@@ -9,5 +9,7 @@ namespace Heldy.DataAccess.Interfaces
     public interface IPersonRepository
     {
         Task<IEnumerable<Person>> GetPersonsAsync(int roleId);
+
+        Task<Person> GetPersonAsync(int id);
     }
 }

@@ -39,5 +39,27 @@ namespace Heldy.DataAccess
 
             return persons;
         }
+
+        public async Task<Person> GetPersonAsync(int id)
+        {
+            var person = new Person();
+
+            using (var connection = new SqlConnection(_dbConfig.ConnectionString))
+            using (var command = new SqlCommand("GetPersonById", connection) { CommandType = CommandType.StoredProcedure })
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("Id", id);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        await Task.Run(() => person = DbHelper.CreatePerson(reader));
+                    }
+                }
+            }
+
+            return person;
+        }
     }
 }
