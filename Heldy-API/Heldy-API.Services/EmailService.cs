@@ -1,18 +1,22 @@
 ﻿using System.Threading.Tasks;
+using Heldy.DataAccess.Interfaces;
 using Heldy.Services.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
 using Microsoft.Extensions.Configuration;
+using Org.BouncyCastle.Crypto.Modes;
 
 namespace Heldy.Services
 {
     public class EmailService : IEmailService
     {
         private readonly IConfiguration configuration;
+        private readonly IPersonRepository personRepository;
 
-        public EmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration, IPersonRepository personRepository)
         {
             this.configuration = configuration;
+            this.personRepository = personRepository;
         }
 
         public async Task SendStudentRegistrationEmailAsync(string email, string password)
@@ -20,6 +24,13 @@ namespace Heldy.Services
             var message =
                 $"Dear Student,\r\n\r\nWelcome to the distance learning system Heldy. \r\nThis is your login and password for entering the system.\r\nFeel free to contact us in case of problems.\r\n\r\nLogin: {email}\r\nPassword: {password}\r\n\r\nSincerely,\r\n\r\nViktor Kauk, Ph.D., assistant professor of Software Engineering\r\nKharkiv National University of Radio Electronics\r\n\r\n61166 Kharkov, Ukraine, Lenina 14, 330\r\nwww.nure.ua\r\nphone / fax: +38057-7021385 :: mob.+38067-5720965\r\nviktor.kauk@nure.ua \r\nSkype: victor.kauk\r\n";
             await SendEmailAsync(email, message);
+        }
+
+        public async Task NotifyStudentAboutBigAmountOfTasksAsync(int userId)
+        {
+            var message = "Dear Student,\r\n\r\nYou have too many tasks.\r\n";
+            var user = await personRepository.GetPersonAsync(userId);
+            await SendEmailAsync(user.Email, message);
         }
 
         private async Task SendEmailAsync(string email, string message)
@@ -36,7 +47,6 @@ namespace Heldy.Services
 
             emailMessage.From.Add(new MailboxAddress(senderName, senderEmail));
             emailMessage.To.Add(new MailboxAddress("", email));
-            emailMessage.Subject = "Registration";
             emailMessage.Body = new TextPart("Plain")
             {
                 Text = message

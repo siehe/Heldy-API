@@ -9,5 +9,7 @@ namespace Heldy.Services.Interfaces
     public interface IPersonService
     {
         Task<IEnumerable<Person>> GetPersonsAsync(int roleId);
+
+        Task<Person> GetPersonAsync(int id);
     }
 }

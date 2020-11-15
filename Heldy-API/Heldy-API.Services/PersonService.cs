@@ -22,5 +22,11 @@ namespace Heldy.Services
             var persons = await _personRepository.GetPersonsAsync(roleId);
             return persons;
         }
+
+        public async Task<Person> GetPersonAsync(int id)
+        {
+            var person = await _personRepository.GetPersonAsync(id);
+            return person;
+        }
     }
 }
