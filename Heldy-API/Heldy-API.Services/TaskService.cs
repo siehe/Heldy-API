@@ -21,7 +21,7 @@ namespace Heldy.Services
             this.emailService = emailService;
         }
 
-        public async Task CreateTaskAsync(CreateTaskRequest task)
+        public async Task CreateTaskAsync(CreateUpdateTaskRequest task)
         {
             await _taskRepository.CreateTaskAsync(task);
             var tasksCount = await _taskRepository.GetPersonTasksCountAsync(task.AssigneeId);
@@ -41,6 +41,11 @@ namespace Heldy.Services
         {
             var tasks = await _taskRepository.GetTasksBySubjectAsync(subjectId, assigneeId);
             return tasks;
+        }
+
+        public async Task UpdateTaskAsync(CreateUpdateTaskRequest task)
+        {
+            await _taskRepository.UpdateTaskAsync(task);
         }
     }
 }

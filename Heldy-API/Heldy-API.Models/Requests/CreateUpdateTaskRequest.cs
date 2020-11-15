@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Heldy.Models.Requests
 {
-    public class CreateTaskRequest
+    public class CreateUpdateTaskRequest
     {
+        public int Id { get; set; }
+
         [MinLength(3), MaxLength(50)]
         public string Statement { get; set; }
 
