@@ -8,6 +8,8 @@ namespace Heldy.DataAccess.Interfaces
 {
     public interface ISubjectRepository
     {
-        Task<IEnumerable<Subject>> GetSubjectsAsync(); 
+        Task<IEnumerable<Subject>> GetSubjectsAsync();
+
+        Task<int> CreateSubjectAsync(Subject subject);
     }
 }

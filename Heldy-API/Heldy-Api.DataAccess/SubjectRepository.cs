@@ -18,6 +18,30 @@ namespace Heldy.DataAccess
             _dbConfig = DbHelper.GetConfig();
         }
 
+        public async Task<int> CreateSubjectAsync(Subject subject)
+        {
+            int id = default;
+
+            using (var connection = new SqlConnection(_dbConfig.ConnectionString))
+            using (var command = new SqlCommand("CreateSubject", connection) { CommandType = CommandType.StoredProcedure })
+            {
+                connection.Open();
+
+                command.Parameters.AddWithValue("title", subject.Title);
+                command.Parameters.AddWithValue("credits", subject.Credits);
+
+                using(var reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.Read())
+                    {
+                        id = (int)reader.GetDecimal(reader.GetOrdinal("createdId"));
+                    }
+                }
+            }
+
+            return id;
+        }
+
         public async Task<IEnumerable<Subject>> GetSubjectsAsync()
         {
             var subjects = new List<Subject>();
