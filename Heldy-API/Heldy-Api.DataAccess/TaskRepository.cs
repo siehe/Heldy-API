@@ -113,7 +113,7 @@ namespace Heldy.DataAccess
         public async Task UpdateTaskAsync(CreateUpdateTaskRequest task)
         {
             using(var connection = new SqlConnection(_dbConfig.ConnectionString))
-            using (var command = new SqlCommand("UpdateTask", connection))
+            using (var command = new SqlCommand("UpdateTask", connection) { CommandType = CommandType.StoredProcedure })
             {
                 connection.Open();
                 command.Parameters.AddWithValue("taskId", task.Id);
