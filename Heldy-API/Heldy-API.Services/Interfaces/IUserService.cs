@@ -12,5 +12,6 @@ namespace Heldy.Services.Interfaces
         Task<bool> Registration(Person user);
         Task<LoginResultDto> Login(Person user);
         Task<string> RegisterStudent(string email);
+        Task<Person> GetPerson(int id);
     }
 }
