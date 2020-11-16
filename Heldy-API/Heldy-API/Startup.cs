@@ -36,9 +36,6 @@ namespace Heldy_API
                     Title = "Heldy API",
                     Version = "v1"
                 });
-
-                var xmlFilePath = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.XML");
-                c.IncludeXmlComments(xmlFilePath);
             });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
