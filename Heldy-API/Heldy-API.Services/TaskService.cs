@@ -31,6 +31,11 @@ namespace Heldy.Services
             }
         }
 
+        public async Task DeleteTaskAsync(int taskId)
+        {
+            await _taskRepository.DeleteTaskAsync(taskId);
+        }
+
         public async Task<IEnumerable<PersonTask>> GetPersonsTasksAsync(int userId)
         {
             var tasks = await _taskRepository.GetPersonTasksAsync(userId);
