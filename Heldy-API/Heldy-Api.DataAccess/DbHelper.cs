@@ -62,7 +62,12 @@ namespace Heldy.DataAccess
             person.Name = reader["Name"]?.ToString();
             person.SecondName = reader["SecondName"]?.ToString();
             person.Surname = reader["Surname"]?.ToString();
-            person.DOB = DateTime.Parse(reader["DOB"]?.ToString());
+
+            if (DateTime.TryParse(reader["DOB"]?.ToString(), out DateTime DOB))
+            {
+                person.DOB = DOB;
+            }
+
             person.Email = reader["Email"]?.ToString();
 
             return person;
@@ -76,7 +81,12 @@ namespace Heldy.DataAccess
             person.Name = reader[$"{prefix}Name"]?.ToString();
             person.SecondName = reader[$"{prefix}SecondName"]?.ToString();
             person.Surname = reader[$"{prefix}Surname"]?.ToString();
-            person.DOB = DateTime.Parse(reader[$"{prefix}DOB"]?.ToString());
+
+            if (DateTime.TryParse(reader[$"{prefix}DOB"]?.ToString(), out DateTime DOB))
+            {
+                person.DOB = DOB;
+            }
+
             person.Email = reader[$"{prefix}Email"]?.ToString();
 
             return person;

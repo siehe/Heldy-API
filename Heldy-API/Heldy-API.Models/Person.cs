@@ -14,7 +14,7 @@ namespace Heldy.Models
 
         public string SecondName { get; set; }
 
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
 
         public string Email { get; set; }
 
@@ -25,7 +25,7 @@ namespace Heldy.Models
             Name = string.IsNullOrEmpty(Name) ? "" : Name;
             Surname = string.IsNullOrEmpty(Surname) ? "" : Surname;
             SecondName = string.IsNullOrEmpty(SecondName) ? "" : SecondName;
-            DOB = DOB.Year < 1970 ? new DateTime(1970,1,1) : DOB;
+            DOB = DOB.Value.Year < 1970 ? new DateTime(1970,1,1) : DOB;
         }
     }
 }
