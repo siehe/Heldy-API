@@ -24,8 +24,8 @@ namespace Heldy.Services
         public async Task CreateTaskAsync(CreateUpdateTaskRequest task)
         {
             await _taskRepository.CreateTaskAsync(task);
-            var tasksCount = await _taskRepository.GetPersonTasksCountAsync(task.AssigneeId);
-            if (tasksCount >= 3)
+            var tasksCount = await _taskRepository.GetPersonToDoTasksCountAsync(task.AssigneeId);
+            if (tasksCount >= 10)
             {
                 await emailService.NotifyStudentAboutBigAmountOfTasksAsync(task.AssigneeId);
             }
