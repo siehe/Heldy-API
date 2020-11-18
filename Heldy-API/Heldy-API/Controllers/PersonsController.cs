@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Heldy.Models.Requests;
 using Heldy.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +16,12 @@ namespace Heldy_API.Controllers
     public class PersonsController : Controller
     {
         private IPersonService _personService;
+        private IUserService _userService;
 
-        public PersonsController(IPersonService personService)
+        public PersonsController(IPersonService personService, IUserService userService)
         {
             _personService = personService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -39,6 +43,15 @@ namespace Heldy_API.Controllers
         {
             var person = await _personService.GetPersonAsync(id);
             return Ok(person);
+        }
+
+        [HttpPut]
+        [Route("{personId}")]
+        public async Task<IActionResult> UpdatePerson(UpdatePersonRequest updatePersonRequest, int personId)
+        {
+            await _userService.UpdatePersonAsync(updatePersonRequest, personId);
+
+            return Ok(HttpStatusCode.OK);
         }
     }
 }

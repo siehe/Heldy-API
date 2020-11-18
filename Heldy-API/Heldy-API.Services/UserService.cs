@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Heldy.DataAccess.Interfaces;
 using Heldy.Models;
+using Heldy.Models.Requests;
 using Heldy.Services.DTO;
 using Heldy.Services.Interfaces;
 
@@ -103,6 +104,11 @@ namespace Heldy.Services
         {
             var person = await userRepository.GetPerson(id);
             return person;
+        }
+
+        public async Task UpdatePersonAsync(UpdatePersonRequest updatePersonRequest, int personId)
+        {
+            await userRepository.UpdatePersonAsync(updatePersonRequest, personId);
         }
     }
 }
