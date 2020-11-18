@@ -65,12 +65,12 @@ namespace Heldy.DataAccess
             return tasks;
         }
 
-        public async Task<int> GetPersonTasksCountAsync(int userId)
+        public async Task<int> GetPersonToDoTasksCountAsync(int userId)
         {
             var count = 0;
 
             using (var connection = new SqlConnection(_dbConfig.ConnectionString))
-            using (var command = new SqlCommand("GetPersonTasksCount", connection) { CommandType = CommandType.StoredProcedure })
+            using (var command = new SqlCommand("GetPersonToDoTasksCount", connection) { CommandType = CommandType.StoredProcedure })
             {
                 connection.Open();
                 command.Parameters.AddWithValue("Id", userId);
