@@ -82,5 +82,14 @@ namespace Heldy_API.Controllers
 
             return Ok(HttpStatusCode.NoContent);
         }
+
+        [HttpDelete]
+        [Route("{taskId}")]
+        public async Task<IActionResult> DeleteTask(int taskId)
+        {
+            await _taskService.DeleteTaskAsync(taskId);
+
+            return Ok(HttpStatusCode.OK);
+        }
     }
 }

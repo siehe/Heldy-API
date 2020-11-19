@@ -42,6 +42,18 @@ namespace Heldy.DataAccess
             }
         }
 
+        public async Task DeleteTaskAsync(int taskId)
+        {
+            await using var connection = new SqlConnection(_dbConfig.ConnectionString);
+            await using var command = new SqlCommand("DeleteTask", connection) { CommandType = CommandType.StoredProcedure };
+            
+            await connection.OpenAsync();
+
+            command.Parameters.AddWithValue("taskId", taskId);
+
+            await command.ExecuteNonQueryAsync();
+        }
+
         public async Task<IEnumerable<PersonTask>> GetPersonTasksAsync(int userId)
         {
             var tasks = new List<PersonTask>();

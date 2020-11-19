@@ -16,5 +16,7 @@ namespace Heldy.Services.Interfaces
         Task CreateTaskAsync(CreateUpdateTaskRequest task);
 
         Task UpdateTaskAsync(CreateUpdateTaskRequest task);
+
+        Task DeleteTaskAsync(int taskId);
     }
 }
