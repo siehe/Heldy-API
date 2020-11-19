@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Heldy.DataAccess.Interfaces;
 using Heldy.Models;
+using Heldy.Models.Requests;
 using Newtonsoft.Json;
 
 namespace Heldy.DataAccess
@@ -139,6 +140,30 @@ namespace Heldy.DataAccess
             
 
             return person;
+        }
+
+        public async Task UpdatePersonAsync(UpdatePersonRequest updatePersonRequest, int personId)
+        {
+            await using var connection = new SqlConnection(_dbConfig.ConnectionString);
+            await using var command = new SqlCommand("UpdatePerson", connection) { CommandType = CommandType.StoredProcedure };
+
+            await connection.OpenAsync();
+
+            command.Parameters.AddWithValue("personId", personId);
+
+            if (updatePersonRequest.Name != null)
+                command.Parameters.AddWithValue("name", updatePersonRequest.Name);
+
+            if (updatePersonRequest.SecondName != null)
+                command.Parameters.AddWithValue("secondName", updatePersonRequest.SecondName);
+
+            if (updatePersonRequest.Surname != null)
+                command.Parameters.AddWithValue("surname", updatePersonRequest.Surname);
+
+            if (updatePersonRequest.DOB != null)
+                command.Parameters.AddWithValue("dob", updatePersonRequest.DOB);
+
+            await command.ExecuteNonQueryAsync();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Heldy.Models;
+using Heldy.Models.Requests;
 using Heldy.Services.DTO;
 
 namespace Heldy.Services.Interfaces
@@ -13,5 +14,6 @@ namespace Heldy.Services.Interfaces
         Task<LoginResultDto> Login(Person user);
         Task<string> RegisterStudent(string email);
         Task<Person> GetPerson(int id);
+        Task UpdatePersonAsync(UpdatePersonRequest updatePersonRequest, int personId);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Heldy.Models;
+using Heldy.Models.Requests;
 
 namespace Heldy.DataAccess.Interfaces
 {
@@ -15,5 +16,7 @@ namespace Heldy.DataAccess.Interfaces
         Task<Person> GetPersonByEmail(string email);
 
         Task<Person> GetPerson(int id);
+
+        Task UpdatePersonAsync(UpdatePersonRequest updatePersonRequest, int personId);
     }
 }
