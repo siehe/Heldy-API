@@ -59,11 +59,11 @@ namespace Heldy.DataAccess
             var person = new Person();
 
             person.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-            person.Name = reader.GetString(reader.GetOrdinal("Name"));
-            person.SecondName = reader.GetString(reader.GetOrdinal("SecondName"));
-            person.Surname = reader.GetString(reader.GetOrdinal("Surname"));
-            person.DOB = reader.GetDateTime(reader.GetOrdinal("DOB"));
-            person.Email = reader.GetString(reader.GetOrdinal("Email"));
+            person.Name = reader["Name"]?.ToString();
+            person.SecondName = reader["SecondName"]?.ToString();
+            person.Surname = reader["Surname"]?.ToString();
+            person.DOB = DateTime.Parse(reader["DOB"]?.ToString());
+            person.Email = reader["Email"]?.ToString();
 
             return person;
         }
@@ -73,11 +73,11 @@ namespace Heldy.DataAccess
             var person = new Person();
 
             person.Id = reader.GetInt32(reader.GetOrdinal($"{prefix}Id"));
-            person.Name = reader.GetString(reader.GetOrdinal($"{prefix}Name"));
-            person.SecondName = reader.GetString(reader.GetOrdinal($"{prefix}SecondName"));
-            person.Surname = reader.GetString(reader.GetOrdinal($"{prefix}Surname"));
-            person.DOB = reader.GetDateTime(reader.GetOrdinal($"{prefix}DOB"));
-            person.Email = reader.GetString(reader.GetOrdinal($"{prefix}Email"));
+            person.Name = reader[$"{prefix}Name"]?.ToString();
+            person.SecondName = reader[$"{prefix}SecondName"]?.ToString();
+            person.Surname = reader[$"{prefix}Surname"]?.ToString();
+            person.DOB = DateTime.Parse(reader[$"{prefix}DOB"]?.ToString());
+            person.Email = reader[$"{prefix}Email"]?.ToString();
 
             return person;
         }
