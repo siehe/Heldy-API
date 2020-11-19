@@ -108,7 +108,7 @@ namespace Heldy.DataAccess
             command.Parameters.AddWithValue("secondName", (object)person.SecondName ?? DBNull.Value);
             command.Parameters.AddWithValue("email", person.Email);
             command.Parameters.AddWithValue("password", person.Password);
-            SetDOBParameter(command, person.DOB.Value);
+            command.Parameters.AddWithValue("dob", person.DOB);
 
             return command;
         }
