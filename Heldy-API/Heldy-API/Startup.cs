@@ -67,6 +67,8 @@ namespace Heldy_API
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IEmailService, EmailService>();
+            services.AddSingleton<ICommentsService, CommentsService>();
+            services.AddSingleton<ICommentsRespository, CommentsRepository>();
             services.AddControllers();
             services.AddCors(options =>
             {
