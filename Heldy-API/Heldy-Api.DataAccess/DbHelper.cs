@@ -62,6 +62,7 @@ namespace Heldy.DataAccess
             person.Name = reader["Name"]?.ToString();
             person.SecondName = reader["SecondName"]?.ToString();
             person.Surname = reader["Surname"]?.ToString();
+            person.RoleId = reader.GetInt32(reader.GetOrdinal("Role"));
 
             if (DateTime.TryParse(reader["DOB"]?.ToString(), out DateTime DOB))
             {

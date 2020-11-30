@@ -20,6 +20,8 @@ namespace Heldy.Models
 
         public string Password { get; set; }
 
+        public int RoleId { get; set; }
+
         public void ReplaceNullFieldsWithDefaultValues()
         {
             Name = string.IsNullOrEmpty(Name) ? "" : Name;
