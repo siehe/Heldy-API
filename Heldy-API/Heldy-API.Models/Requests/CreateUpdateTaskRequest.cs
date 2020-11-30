@@ -34,5 +34,7 @@ namespace Heldy.Models.Requests
 
         [Required]
         public int StatusId { get; set; }
+
+        public bool IsInQa { get; set; }
     }
 }

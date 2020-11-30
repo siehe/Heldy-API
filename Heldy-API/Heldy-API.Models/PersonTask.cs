@@ -30,5 +30,7 @@ namespace Heldy.Models
         public int Grade { get; set; }
 
         public string Comment { get; set; }
+
+        public bool IsInQa { get; set; }
     }
 }

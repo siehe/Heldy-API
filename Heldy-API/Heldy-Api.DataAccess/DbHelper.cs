@@ -34,6 +34,7 @@ namespace Heldy.DataAccess
             task.Id = reader.GetInt32(reader.GetOrdinal("taskId"));
             task.Statement = reader.GetString(reader.GetOrdinal("Statement"));
             task.Deadline = reader.GetDateTime(reader.GetOrdinal("Deadline"));
+            task.IsInQa = reader.GetBoolean(reader.GetOrdinal("IsInQa"));
 
             task.EctsMark = reader["EctsMark"].ToString();
             task.Comment = reader["Comment"].ToString();

@@ -135,6 +135,7 @@ namespace Heldy.DataAccess
                 command.Parameters.AddWithValue("statusId", task.StatusId);
                 command.Parameters.AddWithValue("subjectId", task.SubjectId);
                 command.Parameters.AddWithValue("typeId", task.TypeId);
+                command.Parameters.AddWithValue("isInQa", task.IsInQa);
 
                 await command.ExecuteNonQueryAsync();
             }
