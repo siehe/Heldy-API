@@ -36,6 +36,11 @@ namespace Heldy.Services
             await _taskRepository.DeleteTaskAsync(taskId);
         }
 
+        public async Task UpdateGradeAsync(UpdateGradeRequest request)
+        {
+            await _taskRepository.UpdateGradeAsync(request.Id, request.Grade);
+        }
+
         public async Task<IEnumerable<PersonTask>> GetPersonsTasksAsync(int userId)
         {
             var tasks = await _taskRepository.GetPersonTasksAsync(userId);

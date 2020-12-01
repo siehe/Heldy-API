@@ -18,5 +18,7 @@ namespace Heldy.DataAccess.Interfaces
         Task UpdateTaskAsync(CreateUpdateTaskRequest task);
 
         Task DeleteTaskAsync(int taskId);
+
+        Task UpdateGradeAsync(int taskId, int grade);
     }
 }

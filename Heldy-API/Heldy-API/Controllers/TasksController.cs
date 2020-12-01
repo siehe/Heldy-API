@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Heldy_API.Controllers
 {
     [ApiController]
-    [Authorize]
+    
     [Route("tasks")]
     public class TasksController : Controller
     {
@@ -81,6 +81,15 @@ namespace Heldy_API.Controllers
             await _taskService.UpdateTaskAsync(task);
 
             return Ok(HttpStatusCode.NoContent);
+        }
+
+        [HttpPatch]
+        [Route("/updateGrade")]
+        public async Task<IActionResult> UpdateGrade(UpdateGradeRequest request)
+        {
+            await _taskService.UpdateGradeAsync(request);
+
+            return Ok();
         }
 
         [HttpDelete]
