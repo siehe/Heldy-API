@@ -137,7 +137,7 @@ namespace Heldy.DataAccess
             person.DOB = reader.IsDBNull(reader.GetOrdinal("DOB")) ? new DateTime() : reader.GetDateTime(reader.GetOrdinal("DOB"));
             person.Email = reader.GetString(reader.GetOrdinal("Email"));
             person.Password = reader.GetString(reader.GetOrdinal("Password"));
-            
+            person.RoleId = reader.GetInt32(reader.GetOrdinal("RoleId"));
 
             return person;
         }

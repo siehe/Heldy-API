@@ -112,7 +112,8 @@ namespace Heldy_API.Controllers
             {
                 accessToken,
                 ExpiresTime = DateTime.Now.AddMinutes(expiresTime),
-                userId = user.Id
+                userId = user.Id,
+                roleId = user.RoleId
             };
             return this.Ok(response);
         }
