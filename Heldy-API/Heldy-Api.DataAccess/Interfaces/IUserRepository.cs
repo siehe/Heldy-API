@@ -18,5 +18,7 @@ namespace Heldy.DataAccess.Interfaces
         Task<Person> GetPerson(int id);
 
         Task UpdatePersonAsync(UpdatePersonRequest updatePersonRequest, int personId);
+
+        Task UpdatePersonImage(int personId, string fileName);
     }
 }

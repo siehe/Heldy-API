@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using Heldy.DataAccess.Interfaces;
 using Heldy.Models;
 using Heldy.Models.Requests;
-using Newtonsoft.Json;
 
 namespace Heldy.DataAccess
 {
@@ -163,6 +160,17 @@ namespace Heldy.DataAccess
             if (updatePersonRequest.DOB != null)
                 command.Parameters.AddWithValue("dob", updatePersonRequest.DOB);
 
+            await command.ExecuteNonQueryAsync();
+        }
+
+        public async Task UpdatePersonImage(int personId, string fileName)
+        {
+            await using var connection = new SqlConnection(_dbConfig.ConnectionString);
+            await using var command = new SqlCommand("UpdatePersonImage", connection) { CommandType = CommandType.StoredProcedure };
+            await connection.OpenAsync();
+
+            command.Parameters.AddWithValue("fileName", fileName);
+            command.Parameters.AddWithValue("personId", personId);
             await command.ExecuteNonQueryAsync();
         }
     }
