@@ -22,6 +22,8 @@ namespace Heldy.Models
 
         public int RoleId { get; set; }
 
+        public string Image { get; set; }
+
         public void ReplaceNullFieldsWithDefaultValues()
         {
             Name = string.IsNullOrEmpty(Name) ? "" : Name;
