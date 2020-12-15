@@ -15,5 +15,6 @@ namespace Heldy.Services.Interfaces
         Task<string> RegisterStudent(string email);
         Task<Person> GetPerson(int id);
         Task UpdatePersonAsync(UpdatePersonRequest updatePersonRequest, int personId);
+        Task UpdatePersonImage(int personId, string fileName);
     }
 }

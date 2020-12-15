@@ -110,5 +110,10 @@ namespace Heldy.Services
         {
             await userRepository.UpdatePersonAsync(updatePersonRequest, personId);
         }
+
+        public async Task UpdatePersonImage(int personId, string fileName)
+        {
+            await userRepository.UpdatePersonImage(personId, fileName);
+        }
     }
 }
